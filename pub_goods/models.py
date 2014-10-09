@@ -8,12 +8,12 @@ from otree.common import Money, money_range
 author = 'Donja Darai'
 
 doc = """
-Public goods game with groups of about 18 and an marginal per capita return of 0.1
+Public goods game with groups of 10 and an marginal per capita return of 0.2
 """
 
 class Subsession(otree.models.BaseSubsession):
 
-    name_in_url = 'pub_goods'
+    name_in_url = 'exp3'
 
 
 class Treatment(otree.models.BaseTreatment):
@@ -21,18 +21,13 @@ class Treatment(otree.models.BaseTreatment):
     subsession = models.ForeignKey(Subsession)
     # </built-in>
 
-    p = models.FloatField(
-        default=2.00,
-        doc="payoff = p(endowment-contribution)+a/N*sum(contribution)"
-    )
-
     endowment = models.MoneyField(
         default=20.00,
         doc="payoff = p(endowment-contribution)+a/N*sum(contribution)"
     )
 
     a = models.FloatField(
-        default=3.8,
+        default=2.0,
         doc="payoff = p(endowment-contribution)+a/N*sum(contribution)"
     )
 
@@ -46,7 +41,7 @@ class Match(otree.models.BaseMatch):
     subsession = models.ForeignKey(Subsession)
     # </built-in>
 
-    players_per_match = 4
+    players_per_match = 10
     
     sum_contribution = models.MoneyField(
         default=None,
@@ -64,7 +59,7 @@ class Match(otree.models.BaseMatch):
     
     def set_payoffs(self):
 	for p in self.players:
-	    p.payoff = p.treatment.p * (p.treatment.endowment - p.contribution) + p.treatment.a * p.match.avg_contribution        
+	    p.payoff = (p.treatment.endowment - p.contribution) + p.treatment.a * p.match.avg_contribution        
 
 class Player(otree.models.BasePlayer):
     # <built-in>

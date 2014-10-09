@@ -7,8 +7,8 @@ from otree.common import Money, money_range
 
 def variables_for_all_templates(self):
     return {
-        'endowment': self.treatment.endowment
-    }
+        'endowment': self.treatment.endowment,
+        'round_number': self.subsession.round_number}
 
 class Contribution(Page):
 

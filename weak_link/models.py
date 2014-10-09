@@ -14,7 +14,7 @@ of the session, there are no subgroups.
 
 class Subsession(otree.models.BaseSubsession):
 
-	name_in_url = 'weak_link'
+	name_in_url = 'exp1'
 	
 	min_value = models.FloatField(
 		default=None,

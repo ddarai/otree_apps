@@ -5,11 +5,10 @@ import norms.forms as forms
 from norms._builtin import Page, MatchWaitPage, SubsessionWaitPage
 from otree.common import Money, money_range
 
-# def variables_for_all_templates(self):
-#     return {
-#         # example:
-#         #'my_field': self.player.my_field,
-#     }
+def variables_for_all_templates(self):
+	return {
+		 'round_number': self.subsession.round_number
+	}
 
 class Question(Page):
 
@@ -25,24 +24,25 @@ class Question(Page):
 #         return {
 #             'my_variable_here': 1,
 #         }
-     
+
 class ResultsWaitPage(SubsessionWaitPage):
  
 # 	def after_all_players_arrive(self):
 #     	#self.match.set_payoffs()
 # 		self.player.random()
-    
+
 
 # THIS SOLUTION WORKS	 
 	def after_all_players_arrive(self):
 		for p in self.subsession.players:
-			p.random()
+			#p.random()
+			p.subsession.most_common()
 			p.subsession.set_payoffs()
 
 	def body_text(self):
 		return "Waiting for other players to decide."
-         	
-     
+
+
 class Results(Page):
 
 #     def participate_condition(self):
@@ -52,15 +52,16 @@ class Results(Page):
 
 	def variables_for_template(self):
 		return {
-        	'rating': self.player.rating,
-            'payoff': self.player.payoff,
-            'random_player' : self.player.random_player,
-            'random_rating' : self.player.random_rating,
-        }
-        
+			'rating': self.player.get_rating_display,
+			'payoff': self.player.payoff,
+			#'random_player' : self.player.random_player,
+			#'random_rating' : self.player.random_rating,
+			'most_common_rating' : self.player.get_most_common_rating_display
+		}
+
 def pages():
-    return [
-        Question,
-        ResultsWaitPage,
-        Results
-    ]
+	return [
+		Question,
+		ResultsWaitPage,
+		Results
+	]
